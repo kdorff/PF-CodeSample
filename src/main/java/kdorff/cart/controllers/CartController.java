@@ -23,15 +23,16 @@ public class CartController {
 
     /**
      * Given the input (list of items) provide the total as JSON. Example output for an input of
-     * ["Apple", "Apple", "Orange", "Apple"] would be:
+     * ["Apple", "Apple", "Orange", "Apple", "Apple", "Orange", "Orange"] would be:
      *
      * {
-     *     "cart": {
-     *         "Apple": 3,
-     *         "Orange": 1
-     *     },
-     *     "currency": "GBP",
-     *     "total": 2.05
+     *     "cart": [
+     *         "Apple ( 4 @ GBP 0.60) : GBP 2.40",
+     *         "Orange ( 3 @ GBP 0.25) : GBP 0.75",
+     *         "Free Apple ( 2 @ GBP -0.60) : GBP -1.20",
+     *         "Free Orange ( 1 @ GBP -0.25) : GBP -0.25"
+     *     ],
+     *     "total": "GBP 1.70"
      * }
      *
      * @param items list of items to get a total for

@@ -44,17 +44,26 @@ total for the items in the cart.
 
 ## Example Execution
 
-To get a total for three Apples and an Orange, you could execute: 
+In this iteration, there are two specials:
 
-`http POST http://localhost:8080/cart-total items:='["Apple","Apple","Orange","Apple"]'`
+* Buy one, get one free on Apples
+* Oranges are 3 for the price of 2
+
+To get a total for four Apples and two Oranges, you could execute: 
+
+`http POST http://localhost:8080/cart-total items:='["Apple","Apple","Orange","Apple", "Apple", "Orange", "Orange"]'`
 
 The output should be 
 
-`{
-    "cart": {
-        "Apple": 3,
-        "Orange": 1
-    },
-    "currency": "GBP",
-    "total": 2.05
-}`
+```
+{
+     "cart": [
+         "Apple ( 4 @ GBP 0.60) : GBP 2.40",
+         "Orange ( 3 @ GBP 0.25) : GBP 0.75",
+         "Free Apple ( 2 @ GBP -0.60) : GBP -1.20",
+         "Free Orange ( 1 @ GBP -0.25) : GBP -0.25"
+     ],
+     "total": "GBP 1.70"
+ }
+ ```
+

@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class to represent a Cart.
@@ -15,7 +18,7 @@ public class Cart {
     /**
      * Map of item to desired quantity.
      */
-    Map<InventoryItem, Integer> itemsToQuantity = new HashMap<>();
+    Map<InventoryItem, Integer> itemsToQuantity = new LinkedHashMap<>();
 
     /**
      * Total cost for items in cart.
@@ -49,12 +52,13 @@ public class Cart {
     }
 
     /**
-     * Get the cart currency.
+     * Get the cart total as a String with currency such as "GBP 1.70".
      *
-     * @return the cart currency.
+     * @return the cart total as a String with currency.
      */
-    public String getCurrency() {
-        return total.getCurrencyUnit().toString();
+    @JsonProperty("total")
+    public String getTotalAsString() {
+        return formatAmount(total ,1);
     }
 
     /**
@@ -62,18 +66,62 @@ public class Cart {
      *
      * @return the cart total as a double.
      */
-    @JsonProperty("total")
+    @JsonIgnore
     public double getTotalAsDouble() {
         return total.getAmount().doubleValue();
     }
 
     /**
-     * Get the contents of the cart, items and related quantities.
-     * This exists for testing and JSON output.
+     * Get the contents of the cart, items and related quantities and prices
+     * including discounts.
+     * TODO: Instead of friendly, probably this should one JSON object per cart item / discount.
      *
-     * @return the map representing the contents of the cart.
+     * @return the verbose list of cart items.
      */
-    public Map<InventoryItem, Integer> getCart() {
-        return itemsToQuantity;
+    @JsonProperty("cart")
+    public List<String> getCartVerbose() {
+        List<String> result = new LinkedList<>();
+        for (Map.Entry<InventoryItem, Integer> entry : itemsToQuantity.entrySet() ) {
+            InventoryItem inventoryItem = entry.getKey();
+            Integer count = entry.getValue();
+            result.add(
+                    inventoryItem.getName() + " ( " +
+                    count + " @ " +
+                            formatAmount(inventoryItem.getCost(), 1) + ") : " +
+                            formatAmount(inventoryItem.getCost(), count));
+        }
+        return result;
+    }
+
+    /**
+     * Format an amount including currency such as "GBP 1.50".
+     *
+     * @param cost the amount to format
+     * @param multiplier a multiplier for the amount
+     * @return String containing the currency and amount
+     */
+    private String formatAmount(Money cost, int multiplier) {
+        return cost.getCurrencyUnit().toString()  + " " +
+                String.format("%.02f", multiplier * cost.getAmount().doubleValue());
+    }
+
+    /**
+     * Get the list of inventory items in the cart.
+     *
+     * @return list of inventory items in the cart.
+     */
+    @JsonIgnore
+    public Set<InventoryItem> getInventoryItems() {
+        return itemsToQuantity.keySet();
+    }
+
+    /**
+     * Get the count of a specific item in the cart.
+     *
+     * @return the count of a specific item in the cart.
+     */
+    @JsonIgnore
+    public Integer getQuantityInCart(InventoryItem inventoryItem) {
+        return itemsToQuantity.get(inventoryItem);
     }
 }

@@ -3,7 +3,7 @@ package kdorff.cart.models;
 import org.joda.money.Money;
 
 /**
- * Class for an inventory item.
+ * Class for an inventory item. Findable using InventoryService.
  */
 public class InventoryItem {
     /**

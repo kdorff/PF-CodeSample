@@ -9,10 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class to provide a simplistic inventory service.
+ * Class to provide a simplistic Inventory service.
  *
  * TODO: This is a SIMPLISTIC Inventory. NOT Thread-safe.
  * TODO: This should be backed by a database or similar.
+ *
+ * NOTE: It is assumed only one InventoryItem per unique itemName.
  */
 @Service
 public class InventoryService {
@@ -24,6 +26,7 @@ public class InventoryService {
 
     /**
      * Add an item to the inventory.
+     * It is assumed only one InventoryItem per unique itemName.
      *
      * @param inventoryItem the item to add to inventory
      */
@@ -33,6 +36,7 @@ public class InventoryService {
 
     /**
      * Find the inventory item by name. Return null if not found.
+     * It is assumed only one InventoryItem per unique itemName.
      *
      * @param itemName the inventory item name
      * @return the InventoryItem or null of not found
