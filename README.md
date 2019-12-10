@@ -16,8 +16,9 @@
 * Java
 * Spring-Boot
 * Spring-Dependency Injection
-* Spock for unit tests (written in Groovy)
-* Gradle build system (with included gradlew-wrapper support)
+* Joda-Money for money handling
+* Spock for unit tests (tests written in Groovy)
+* Gradle for the build system (with included gradlew support)
 
 ## Running the unit tests
 
