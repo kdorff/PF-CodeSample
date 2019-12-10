@@ -1,0 +1,34 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.2.RELEASE")
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    // My dependencies
+    compile('org.joda:joda-money:1.0.1')
+
+    // Spock and Groovy, but just for testing
+    testCompile('org.codehaus.groovy:groovy-all:2.5.8')
+    testCompile('org.spockframework:spock-core:1.3-groovy-2.5')
+    testCompile('org.spockframework:spock-spring:1.3-groovy-2.5')
+}

@@ -1,3 +1,13 @@
+#
+# My ignores
+#
+build/
+.idea/
+.gradle/
+
+#
+# Ignores from Github for Java
+#
 # Compiled class file
 *.class
 
